@@ -1,51 +1,39 @@
-### Project Overview: Predicting Production Line Issues at ChocoDelight Factory
+### Overview and Problem Definition
 
-**Objective:**
-The primary goal of this project is to predict potential production issues in the ChocoDelight Factory's chocolate production line, understand the variables leading to these problems, and quantify savings in rework time and costs using causal inference. The findings will be displayed in an interactive dashboard for easy interpretation and decision-making.
+ChocoDelight Factory, a leading chocolate bar manufacturer, aims to predict and prevent production line inefficiencies using data science to enhance operational efficiency, reduce costs, and maintain product quality.
 
-### Data Preprocessing
+### Data Columns Overview
 
-1. **Handle Missing Values:**
-   - Identify and impute or remove missing values to ensure dataset completeness.
-2. **Rectify Outliers or Anomalies:**
-   - Detect and treat outliers to avoid skewed analysis and model predictions.
-3. **Standardize/Normalize Measurements:**
-   - Standardize/normalize numerical measurements to ensure uniform scale across all features.
+- **Quality Metrics**: Cocoa_Roasting_Level, Texture_Smoothness, Sweetness_Level, Cocoa_Source_Check, Chocolate_Glossiness
+- **Ingredient Metrics**: Sugar_Granularity, Milk_Solid_Percentage, Nuts_Inclusion_Rate, Flavor_Infusion
+- **Packaging Metrics**: Seal_Integrity, Box_Dimensions, Label_Readability, Nutritional_Info_Accuracy
+- **Testing Metrics**: Shelf_Life_Test, Barcode_Scan_Success
 
-### Exploratory Data Analysis (EDA)
+### Key Insights
 
-1. **Distribution Analysis:**
-   - Analyze the distribution of measurements for each station to understand the central tendencies and variances.
-2. **Pattern Identification:**
-   - Identify patterns and trends in the "not okay" instances to understand common failure points.
-3. **Correlation Analysis:**
-   - Determine correlations between different stations to identify interdependencies and potential cascading effects of failures.
+1. **Cocoa_Roasting_Level & Sugar_Granularity**: Significant variability in Cocoa_Roasting_Level; consistent Sugar_Granularity.
+2. **Consistent Metrics**: Symmetrical distributions in Cocoa_Source_Check, Sweetness_Level, and Texture_Smoothness.
+3. **Milk_Solid_Percentage & Nuts_Inclusion_Rate**: Significant deviations in Milk_Solid_Percentage; consistent Nuts_Inclusion_Rate.
+4. **Nutritional_Info_Accuracy**: High variability and longest whisker length.
+5. **Box Dimension & Label Readability**: Larger deviations in Box Dimension and readability issues.
 
-### Feature Importance Analysis
+### Feature Importance and Model Optimization
 
-1. **Feature Selection:**
-   - Use techniques such as recursive feature elimination or permutation importance to determine the most influential features.
-2. **Visualization:**
-   - Visualize the relative importance of top features to understand their impact on the production line's performance.
+- **PCA Findings**: 
+  - PC1: Trade-off between sugar granularity, flavor infusion, and texture smoothness.
+  - PC2: Contrasts milk solid percentage and shelf life with roasting levels.
+  - PC4: Highlights nuts inclusion and box dimensions with label readability issues.
 
-### Predictive Modeling
+- **Logistic Regression**: 
+  - PC4 has the highest positive coefficient, indicating strong influence on "not okay" status.
 
-1. **Model Development:**
-   - Develop a machine learning model to predict "not okay" situations using the identified features.
-2. **Model Assessment:**
-   - Assess model performance using metrics like accuracy, precision, recall, and F1-score.
-3. **Model Refinement:**
-   - Refine the model for optimal performance, focusing on explainability to ensure the results are interpretable by stakeholders.
+- **Handling Imbalanced Data**: 
+  - Used SMOTE and Optuna for optimization.
+  - **Cross-validation (4 folds)**:
+    - Average Precision (Not Okay): 0.52
+    - Average Recall (Not Okay): 0.53
+    - Average F1-Score (Not Okay): 0.52
 
-### Causal Inference
+### Conclusion
 
-1. **Rework Data Analysis:**
-   - Analyze the ‘rework_data’ to understand the relationship between production issues and rework time and costs.
-2. **Scenario Simulation:**
-   - Simulate various scenarios to determine how changes in key features can lead to savings in rework time and costs.
-   - Example: Analyze the impact of improving the Cocoa_Roasting_Level on reducing rework costs and time.
-
-### Dashboard Development
-
-1. **Interactive Dashboard:**
-   - Design an interactive dashboard using PowerBI
+Cross-validation outperformed Optuna optimization for predicting "Not Okay" status, making it the preferred model. Advanced data science techniques effectively predict and mitigate production issues, enhancing ChocoDelight Factory's efficiency and product quality.
